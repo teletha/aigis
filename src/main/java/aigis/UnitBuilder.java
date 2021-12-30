@@ -9,26 +9,54 @@
  */
 package aigis;
 
+import java.util.Set;
+import java.util.stream.IntStream;
+
 import kiss.I;
-import kiss.XML;
 
 public class UnitBuilder {
 
     public static void main(String[] args) {
         Units units = I.make(Units.class);
 
-        I.xml("https://aigis.fandom.com/wiki/Category:Player_Units?from=A").find(".category-page__member-link").forEach(link -> {
-            String name = link.text();
+        I.signal(units.values()).take(1).to(unit -> {
+            unit.analyze();
+        });
 
-            Unit unit = units.computeIfAbsent(name, key -> new Unit());
-            unit.id = name;
-            unit.path = link.attr("href");
+        units.store();
+    }
 
-            XML page = unit.page();
-            String[] unitName = page.find(".unit-infobox .ui-text:nth-child(2)").text().strip().split("\\R");
-            unit.nameJP = unitName[0].strip();
-            unit.nameEN = unitName[2].strip();
-            System.out.println(unit.nameJP + "  " + unit.nameEN);
+    public static void collectAllUnit() {
+        Units units = I.make(Units.class);
+
+        Set<String> excludes = Set
+                .of("Aina", "Alegria", "Amour", "Black Armor", "Bonbori", "Christia", "Delight", "Elizabeth of Blessings", "Farah", "Fes", "Fleur", //
+                        "Freude", "Hanny", "Heroic Naiad", "Iyo", "Imperial Platinum Armor", "Joy", "Liebe", "Licht", "Mizuchi", "Musica", "Naiad", //
+                        "Onyx", "Placer", "Praise", "Plaisir", "Platinum Armor", "Rire", "Sara", "Sariette", "Senko", "Seremo", "Sol", "Tale", "Tsubasa", "Victoire");
+
+        IntStream.rangeClosed('A', 'Z').forEach(c -> {
+            I.xml("https://aigis.fandom.com/wiki/Category:Player_Units?from=" + (char) c)
+                    .find(".category-page__member-link")
+                    .forEach(link -> {
+                        String name = link.text();
+
+                        // exclude spirits
+                        if (excludes.contains(name) || name.startsWith("Gladys") || name.startsWith("Happy") || name
+                                .startsWith("Nina") || name.startsWith("Life-Sized") || name.startsWith("Trene") || name
+                                        .startsWith("Celia") || name.startsWith("Cyrille") || name.startsWith("Florika")) {
+                            return;
+                        }
+
+                        // ecludes alternative unit
+                        if (name.endsWith("of the Foreign Land")) {
+                            return;
+                        }
+
+                        Unit unit = units.computeIfAbsent(name, key -> new Unit());
+                        unit.id = name;
+
+                        unit.analyze();
+                    });
         });
 
         units.store();

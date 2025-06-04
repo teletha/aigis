@@ -262,3 +262,27 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/Java,Maven,Windows,Linux,Eclipse,IntelliJ
+# Created by https://www.toptal.com/developers/gitignore/api/Java,Maven,Windows,Linux
+# Edit at https://www.toptal.com/developers/gitignore?templates=Java,Maven,Windows,Linux
+
+
+
+
+
+
+replay_pid*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# End of https://www.toptal.com/developers/gitignore/api/Java,Maven,Windows,Linux

@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://docs.oracle.com/en/java/javase/16/"><img src="https://img.shields.io/badge/Java-Release%2016-green"/></a>
+    <a href="https://docs.oracle.com/en/java/javase/24/"><img src="https://img.shields.io/badge/Java-Release%2024-green"/></a>
     <span>&nbsp;</span>
     <a href="https://jitpack.io/#teletha/aigis"><img src="https://img.shields.io/jitpack/v/github/teletha/aigis?label=Repository&color=green"></a>
     <span>&nbsp;</span>
@@ -7,23 +7,17 @@
 </p>
 
 
-## About The Project
 
-<p align="right"><a href="#top">back to top</a></p>
+
+
 
 
 ## Prerequisites
-Aigis runs on all major operating systems and requires only [Java version 16](https://docs.oracle.com/en/java/javase/16/) or later to run.
-To check, please run `java -version` from the command line interface. You should see something like this:
-```
-> java -version
-openjdk version "16" 2021-03-16
-OpenJDK Runtime Environment (build 16+36-2231)
-OpenJDK 64-Bit Server VM (build 16+36-2231, mixed mode, sharing)
-```
+Aigis runs on all major operating systems and requires only [Java version 24](https://docs.oracle.com/en/java/javase/24/) or later to run.
+To check, please run `java -version` on your terminal.
 <p align="right"><a href="#top">back to top</a></p>
 
-## Using in your build
+## Install
 For any code snippet below, please substitute the version given with the version of Aigis you wish to use.
 #### [Maven](https://maven.apache.org/)
 Add JitPack repository at the end of repositories element in your build.xml:
@@ -64,7 +58,7 @@ Add it into the libraryDependencies section like so:
 libraryDependencies += "com.github.teletha" % "aigis" % "0.1"
 ```
 #### [Leiningen](https://leiningen.org/)
-Add JitPack repository at the end of repositories in your project.clj:
+Add JitPack repository at the end of repositories in your project().clj:
 ```clj
 :repositories [["jitpack" "https://jitpack.io"]]
 ```
@@ -101,17 +95,17 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 <p align="right"><a href="#top">back to top</a></p>
 
 
-## Built with
+## Dependency
 Aigis depends on the following products on runtime.
-* No Dependency
-
-Aigis depends on the following products on test.
-* No Dependency
+* [kuromoji-core-0.9.0](https://mvnrepository.com/artifact/com.atilika.kuromoji/kuromoji-core/0.9.0)
+* [kuromoji-ipadic-0.9.0](https://mvnrepository.com/artifact/com.atilika.kuromoji/kuromoji-ipadic/0.9.0)
+* [psychopath-2.2.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/2.2.1)
+* [sinobu-4.12.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/4.12.0)
 <p align="right"><a href="#top">back to top</a></p>
 
 
 ## License
-Copyright (C) 2021 The AIGIS Development Team
+Copyright (C) 2025 The AIGIS Development Team
 
 MIT License
 

@@ -17,13 +17,15 @@ import kiss.I;
 public class UnitBuilder {
 
     public static void main(String[] args) {
-        Units units = I.make(Units.class);
+        collectAllUnit();
 
-        I.signal(units.values()).take(1).to(unit -> {
-            unit.analyze();
-        });
-
-        units.store();
+        // Units units = I.make(Units.class);
+        //
+        // I.signal(units.values()).take(1).to(unit -> {
+        // unit.analyze();
+        // });
+        //
+        // units.store();
     }
 
     public static void collectAllUnit() {
@@ -43,7 +45,8 @@ public class UnitBuilder {
                         // exclude spirits
                         if (excludes.contains(name) || name.startsWith("Gladys") || name.startsWith("Happy") || name
                                 .startsWith("Nina") || name.startsWith("Life-Sized") || name.startsWith("Trene") || name
-                                        .startsWith("Celia") || name.startsWith("Cyrille") || name.startsWith("Florika")) {
+                                        .startsWith("Celia") || name
+                                                .startsWith("Cyrille") || name.startsWith("Florika") || name.contains(" Doll")) {
                             return;
                         }
 
@@ -56,6 +59,8 @@ public class UnitBuilder {
                         unit.id = name;
 
                         unit.analyze();
+
+                        System.out.println(unit.id + "  " + unit.name);
                     });
         });
 

@@ -70,6 +70,12 @@ public class Unit {
         File localPage = UnitRoot.directory(id).file("page.html");
 
         if (localPage.isAbsent()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw I.quiet(e);
+            }
+
             I.info("Download page for [" + id + "]");
 
             // try to read from network
@@ -95,10 +101,16 @@ public class Unit {
         File localPage = UnitRoot.directory(id).file("page-jp.html");
 
         if (localPage.isAbsent()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw I.quiet(e);
+            }
+
             I.info("Download page for [" + name + "]");
 
             // try to read from network
-            XML xml = I.xml("https://wikiwiki.jp/aigiszuki/" + name.replace(" ", "%20"));
+            XML xml = I.xml("https://wikiwiki.jp/aigiszuki/" + name.replace("婚礼つむじ風 ", "婚礼つむじ風").replace(" ", "%20"));
 
             // remove all script and svg elements
             xml.find("script, svg").remove();
@@ -248,9 +260,9 @@ public class Unit {
         case "black" -> 6;
         case "unique" -> -1;
         default ->
-            // If this exception will be thrown, it is bug of this program. So we must
-            // rethrow the wrapped error in here.
-            throw new Error(id + "  " + data);
+                // If this exception will be thrown, it is bug of this program. So we must
+                // rethrow the wrapped error in here.
+                throw new Error(id + "  " + data);
         };
     }
 

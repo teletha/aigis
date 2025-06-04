@@ -1,34 +1,46 @@
+/*
+ * Copyright (C) 2025 The EVERGARDEN Development Team
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *          https://opensource.org/licenses/MIT
+ */
 import { Mimic as $ } from "./mimic.js"
+import hljs from "./highlight.js"
 
 // =====================================================
 // User Settings
 // =====================================================
 const
 	prefix = import.meta.url.substring(location.protocol.length + location.host.length + 2, import.meta.url.length - 7),
-	user = JSON.parse(localStorage.getItem("user")) || {},
+	user = JSON.parse(localStorage.getItem("user")) || {"theme": "light"},
 	save = () => localStorage.setItem("user", JSON.stringify(user))
+	hljs.configure({ignoreUnescapedHTML: true})
+	history.scrollRestoration = "manual"
 	
 // =====================================================
 // View Mode
 // =====================================================
 $("html").add(user.theme)
-$("#light,#dark").on("click", e => save($("html").reset(user.theme = e.currentTarget.id)))
-
+$("#theme").click(e => save($("html").reset(user.theme = user.theme == "light" ? "dark" : "light")))
 
 // =====================================================
 // Dynamic Navigation Indicator
 // =====================================================
 const navi = new IntersectionObserver(e => {
-	e = e.filter(i => i.isIntersecting);
-	if (0 < e.length) {
-		const i = e.reduce((a, b) => a.intersectionRation > b.intersectionRatio ? a : b);
-		if (i) {
-			console.log(i.target.id, i.intersectionRatio);
-			$("#DocNavi .now").remove("now");
-			$(`#DocNavi a[href$='#${i.target.id}']`).add("now");
+	e.forEach(i => {
+		var x = $(`:is(nav,aside) a[href$='#${i.target.id}']`), p = x.parent().is(".sub");
+		if (i.isIntersecting) {
+			x.add("now").each(n => n.scrollIntoView({block: "nearest"}))
+			p.each(n => n.style.height = n.scrollHeight + "px")
+		} else {
+			x.remove("now")
+			p.none(".now").each(n => n.style.height = 0)
 		}
-	}
-}, { root: null, rootMargin: "-40% 0px -60% 0px", threshold: 0 })
+	})
+}, {rootMargin: "-15% 0px -20% 0px", threshold: 0.1})
 
 // =====================================================
 // Lightning Fast Viewer
@@ -39,26 +51,26 @@ function FlashMan({ paged, cacheSize = 20, preload = "mouseover", preview = "sec
 		set.filter(x => x.isIntersecting && !x.target.init && (x.target.init = true)).forEach(x => {
 			for (let q in previews) x.target.querySelectorAll(q).forEach(e => previews[q](e))
 		})
-	}, { rootMargin: "80px", threshold: 0.3 });
+	}, { rootMargin: "60px 0px"});
 
 	// This is the state immediately after a page change has been requested by a user operation.
-	function changed() {
+	function changed(poped) {
 		if (path == location.pathname) {
 			if (hash != location.hash) {
 				hash = location.hash;
-				hashed();
+				hashed(poped, true);
 			}
 		} else {
 			path = location.pathname;
 			hash = location.hash;
-			load(path);
+			load(path, poped, false);
 		}
 	}
 
 	// Reads the contents of the specified path into the cache. If it is already cached or currently being read, it will be ignored.
-	function load(p) {
+	function load(p, poped, same) {
 		if (cache.has(p)) {
-			if (path == p) update(cache.get(p))
+			if (path == p) update(cache.get(p), poped, same)
 		} else if (!loading.has(p)) {
 			loading.add(p)
 			fetch(p)
@@ -66,43 +78,57 @@ function FlashMan({ paged, cacheSize = 20, preload = "mouseover", preview = "sec
 				.then(html => {
 					loading.delete(p)
 					cache.set(p, html)
-					if (path == p) update(html)
+					if (path == p) update(html, poped, same)
 					if (cacheSize < cache.size) cache.delete(cache.keys().next().value)
 				})
 		}
 	}
 
-	function update(text) {
-		if (text) {
-			$("article").html(text.substring(text.indexOf(">", text.indexOf("<article")) + 1, text.lastIndexOf("</article>")));
-			$("aside").html(text.substring(text.indexOf(">", text.indexOf("<aside")) + 1, text.lastIndexOf("</aside>")));
-		}
-		paged();
-		$(preview).each(e => observer.observe(e));
-		hashed();
+	function update(text, poped, same) {
+		if (poped !== undefined || same !== undefined) $("article").add("fadeout")
+		setTimeout(() => {
+			if (text) {
+				$("article").html(text.substring(text.indexOf(">", text.indexOf("<article")) + 1, text.lastIndexOf("</article>")));
+				$("aside").html(text.substring(text.indexOf(">", text.indexOf("<aside")) + 1, text.lastIndexOf("</aside>"))); 
+			}
+			paged();
+			$(preview).each(e => observer.observe(e));
+			hashed(poped, same)
+			$("article").remove("fadeout")
+		}, 300)
 	}
 
-	function hashed() {
-		// scroll to top or #hash
-		if (location.hash == "") {
-			setTimeout(() => window.scrollTo(0, 0), 200); // wait rendering
-		} else {
-			location.replace(location.href);
-		}
+	// Scroll into view automatically when hash is changed
+	function hashed(poped, same) {
+		let h = location.hash?.substring(1)
+		window.scrollTo({
+			top: !same && poped ? localStorage.getItem(location.pathname) || 0 : h ? document.getElementById(h).offsetTop : 0,
+			left: 0,
+			behavior: same ? "smooth":"instant"
+		})
 	}
 
 	// Detect all URL changes
-	window.addEventListener("popstate", v => changed())
+	window.addEventListener("popstate", v => changed(true))
 	document.addEventListener("DOMContentLoaded", v => { update(); cache.set(location.pathname, document.documentElement.outerHTML) })
 	document.addEventListener("click", v => {
 		let e = v.target.closest("a");
 		if (e != null && location.origin == e.origin) {
 			if (location.href != e.href) {
-				history.pushState(null, null, e.href)
-				changed()
+				if (location.pathname.endsWith("doc/one.html") && e.pathname.includes("/doc/")) {
+					location.hash = e.hash || e.nextSibling.firstChild.hash
+					hashed()
+				} else {
+					history.pushState(null, null, e.href)
+					changed()
+				}
 			}
 			v.preventDefault()
 		}
+	})
+	// Detect scroll position
+	window.addEventListener("scroll", v => {
+		localStorage.setItem(location.pathname, window.scrollY)
 	})
 	// Preloader
 	document.addEventListener(preload, v => {
@@ -113,43 +139,31 @@ function FlashMan({ paged, cacheSize = 20, preload = "mouseover", preview = "sec
 
 FlashMan({
 	paged: () => {
-		$("#APINavi").each(e => e.hidden = !location.pathname.startsWith(prefix + "api/"));
-		$("#DocNavi").each(e => e.hidden = !location.pathname.startsWith(prefix + "doc/"));
-		$("#DocNavi>div").each(e => {
-			const sub = e.lastElementChild;
-
-			if (location.pathname.endsWith(e.id)) {
-				e.classList.add("active");
-				sub.style.height = sub.scrollHeight + "px";
-			} else {
-				e.classList.remove("active");
-				sub.style.height = 0;
-			}
-		});
-
+		$("#APINavi").each(e => e.dataset.hide = !location.pathname.startsWith(prefix + "api/"));
+		$("#DocNavi").each(e => e.dataset.hide = !location.pathname.startsWith(prefix + "doc/"));
 		$("#Article section").each(e => navi.observe(e));
 	},
 
-	preview: "#Article>section",
+	preview: "#Article section",
 	/* Enahnce code highlight */
 	"pre": e => {
 		hljs.highlightElement(e)
 		e.lang = e.classList[0].substring(5).toUpperCase()
-		$(e).appendTo($("<code>").insertBefore(e)).make("a").title("Copy this code").click(v => navigator.clipboard.writeText(e.textContent)).svg(prefix + "main.svg#copy")
+		$(e).appendTo($("<code>").insertBefore(e)).make("a").attr("aria-label", "Copy this code").click(v => navigator.clipboard.writeText(e.textContent)).svg(prefix + "main.svg#copy")
 	},
 	/* Enahnce meta icons */
 	".perp": e => {
-		e.title = "Copy the permanent link";
+		e.ariaLabel = "Copy the permanent link";
 		e.onclick = () => navigator.clipboard.writeText(location.origin + location.pathname + "#" + e.closest("section").id);
 	}, ".tweet": e => {
-		e.title = "Post this article to Twitter";
+		e.ariaLabel = "Post this article to Twitter";
 		e.href = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(location.origin + location.pathname + "#" + e.closest("section").id) + "&text=" + encodeURIComponent(e.closest("header").firstElementChild.textContent);
 		e.target = "_blank";
-		e.rel = "noopener noreferrer";
+		e.rel = "noreferrer";
 	}, ".edit": e => {
-		e.title = "Edit this article";
+		e.ariaLabel = "Edit this article";
 		e.target = "_blank";
-		e.rel = "noopener noreferrer";
+		e.rel = "noreferrer";
 	}
 });
 
@@ -262,14 +276,14 @@ class APITree extends $ {
 	 * Initialize by user configuration.
 	 */
 	constructor(items) {
-		super("<o-tree>")
+		super("<o-tree data-hide='true'>")
 
 		this.moduleFilter = new Select({ placeholder: "Select Module", model: root.modules })
 		this.packageFilter = new Select({ placeholder: "Select Package", model: root.packages })
-		this.typeFilter = new Select({ placeholder: "Select Type", multiple: true, model: ['Interface', 'Functional', 'AbstractClass', 'Class', 'Enum', 'Annotation', 'Exception'] })
+		this.typeFilter = new Select({ placeholder: "Select Type", multiple: true, model: ['Interface', 'Functional', 'AbstractClass', 'Class', 'Enum', 'Record', 'Annotation', 'Exception'] })
 		this.nameFilter = $("<input>").id("NameFilter").placeholder("Search by Name")
 
-		this.id("APINavi").attr("hidden", true).change(e => this.update()).input(e => this.update())
+		this.id("APINavi").change(e => this.update()).input(e => this.update())
 			.append(this.moduleFilter)
 			.append(this.packageFilter)
 			.append(this.typeFilter)
@@ -301,19 +315,17 @@ class APITree extends $ {
 	}
 }
 
-$("main>nav")
+$("body>nav")
 	.append(new APITree(root))
-	.make("div").id("DocNavi").attr("hidden", true)
+	.make("div").id("DocNavi").data("hide",true)
 	.make("div", root.docs, (doc, div) => {
 		div.add("doc").id(doc.path)
 			.make("a").href(doc.path).text(doc.title).parent()
-			.make("ol").add("sub")
-			.make("li", doc.subs, (sub, li) => {
-				li.make("a").href(sub.path).svg(prefix + "main.svg#chevrons").parent()
-					.make("span").text(sub.title)
-				li.make("a", sub.subs, (foot, a) => {
-					a.href(foot.path).svg(prefix + "main.svg#chevrons").parent()
-						.make("span").add("foot").text(foot.title)
+			.make("div").add("sub")
+			.make("a", doc.subs, (sub, li) => {
+				li.href(sub.path).text(sub.title).parent()
+				.make("a", sub.subs, (foot, a) => {
+					a.href(foot.path).add("foot").text(foot.title)
 				})
 			})
 	})

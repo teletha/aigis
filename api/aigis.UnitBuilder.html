@@ -1,73 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Aigis and its API. " name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
 		<title>Aigis API</title>
 		<base href="../"/>
-		<link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/zenburn.min.css" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<script async="true" src="highlight.js"></script>
 		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="W">
-		<header class="N">
-			<h1 class="Y" date="2021-12-30" ver="0.1"><code>Aigis</code></h1>
-			<nav class="I"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="q">
+		<header class="P" date="2025-06-04">
+			<h1 class="Q"><a href="index.html"><code>Aigis</code></a></h1>
+			<nav class="R"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
-					</svg><code>API</code></a><a href="https://github.com//teletha/aigis/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#activity"/>
-					</svg>Activity</a><a href="https://github.com//teletha/aigis" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#github"/>
-					</svg>Repository</a></nav>
-			<div class="S" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#sun"/>
 					</svg>
-				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/aigis/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/aigis" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="S"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<main class="a">
-			<nav class="O">
-				<div></div>
-			</nav>
-			<article class="K" id="Article">
-				<section class="L"><code class="g">aigis</code>
-					<h2 class="Class c"><code class="i">UnitBuilder</code></h2>
-				</section>
-				<section class="L" id="UnitBuilder()">
-					<h2 class="U"><i class="PUBLIC"></i><code class="i">UnitBuilder</code><code class="f">()</code></h2>
-				</section>
-				<section class="L" id="main(java.lang.String[])">
-					<h2 class="U"><i class="STATIC PUBLIC"></i><code class="i">main</code><code class="f">(<code array="fix"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">args</code>)</code><i class="h"><code>void</code></i></h2>
-					<table class="Q">
-						<tr class="e">
-							<td><code array="fix"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code>args</code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-				<section class="L" id="collectAllUnit()">
-					<h2 class="U"><i class="STATIC PUBLIC"></i><code class="i">collectAllUnit</code><code class="f">()</code><i class="h"><code>void</code></i></h2>
-				</section>
-			</article>
-			<aside class="b" id="SubNavi">
-				<div class="J">
-					<h5 class="X">Constructors</h5>
-					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/aigis.UnitBuilder.html#UnitBuilder()">UnitBuilder</a></code><code class="f">()</code></li>
-					</ul>
-					<h5 class="X">Static Methods</h5>
-					<ul>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/aigis.UnitBuilder.html#main(java.lang.String[])">main</a></code><code class="f">(<code array="fix"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">args</code>)</code><i class="k"><code>void</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/aigis.UnitBuilder.html#collectAllUnit()">collectAllUnit</a></code><code class="f">()</code><i class="k"><code>void</code></i></li>
-					</ul>
-				</div>
-			</aside>
-		</main>
-		<script src="root.js"></script>
-		<script src="main.js" type="module"></script>
+		<nav class="g"></nav>
+		<article class="r" id="Article">
+			<section class="v"><code class="BB">aigis</code>
+				<h2 class="Class m"><code class="N">UnitBuilder</code></h2>
+				<div class="z"></div>
+			</section>
+			<section class="v" id="UnitBuilder()">
+				<h2 class="JB"><i class="PUBLIC"></i><code class="N">UnitBuilder</code><code class="O">()</code></h2>
+			</section>
+			<section class="v" id="main(java.lang.String[])">
+				<h2 class="JB"><i class="STATIC PUBLIC"></i><code class="N">main</code><code class="O">(<code array="fix"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">args</code>)</code><i class="Y"><code>void</code></i></h2>
+				<table class="HB">
+					<tr class="AB">
+						<td><code array="fix"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">args</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="v" id="collectAllUnit()">
+				<h2 class="JB"><i class="STATIC PUBLIC"></i><code class="N">collectAllUnit</code><code class="O">()</code><i class="Y"><code>void</code></i></h2>
+			</section>
+		</article>
+		<aside class="t">
+			<div class="w">
+				<h5 class="x">Constructors</h5>
+				<ul>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/aigis.UnitBuilder.html#UnitBuilder()">UnitBuilder</a></code><code class="O">()</code></li>
+				</ul>
+				<h5 class="x">Static Methods</h5>
+				<ul>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/aigis.UnitBuilder.html#main(java.lang.String[])">main</a></code><code class="O">(<code array="fix"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">args</code>)</code><i class="EB"><code>void</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/aigis.UnitBuilder.html#collectAllUnit()">collectAllUnit</a></code><code class="O">()</code><i class="EB"><code>void</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="s">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
 	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
 </html>

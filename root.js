@@ -6,23 +6,17 @@ const root = {
 	],
 	"types": [
 		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Unit",
 			"packageName": "aigis",
 			"type": "Class"
 		},
 		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "UnitBuilder",
+			"name": "Units",
 			"packageName": "aigis",
 			"type": "Class"
 		},
 		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Units",
+			"name": "UnitBuilder",
 			"packageName": "aigis",
 			"type": "Class"
 		}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Mimic Development Team
+ * Copyright (C) 2025 The EVERGARDEN Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,8 +91,8 @@ const
 			if (typeof arg[0] == "function") {
 				let component = this.closest(".mimic").nodes[0]
 				if (component) {
-					let info = component.mimic || (component.mimic = {})
-					let renders = info.renders || (info.renders = [])
+					let info = component.mimic ??= {}
+					let renders = info.renders ??= []
 					renders.push(arg[0])
 				}
 				arg[0] = arg[0]()
@@ -113,7 +113,7 @@ const
 		} else if (Array.isArray(v)) {
 			v.forEach(i => nodify(i, action))
 		} else if (isString(v)) {
-			action(v.trim()[0] === "<" ? parseHTML(v) : $(v))
+			action(v.trim()[0] === "<" ? parseHTML(v) : Mimic(v))
 		} else if (v instanceof Mimic) {
 			nodify(v.nodes, action)
 		}
@@ -142,6 +142,7 @@ Mimic.prototype = {
 	each: self((e, action) => action(e)),
 
 	contain: flat((e, selector) => e.querySelector(selector) ? e : [], 9),
+	none: flat((e, selector) => e.querySelector(selector) ? [] : e, 9),
 	filter: flat((e, condition) => condition(e) ? e : [], 9),
 	is: flat((e, selector) => e.matches(selector) ? e : [], 9),
 
@@ -174,13 +175,14 @@ Mimic.prototype = {
 	empty: self(e => e.replaceChildren()),
 	clear: self(e => e.parentNode.removeChild(e)),
 
-	html: value((e, text) => text ? e.innerHTML = text : e.innerHTML),
-	text: value((e, text) => text ? e.textContent = text : e.textContent),
-	attr: value((e, name, value) => value ? e.setAttribute(name, value) : e.getAttribute(name)),
-	data: value((e, name, value) => value ? e.dataset[name] = value : e.dataset[name]),
+	html: value((e, text) => text === undefined ? e.innerHTML : e.innerHTML = text),
+	text: value((e, text) => text === undefined ? e.textContent : e.textContent = text),
+	attr: value((e, name, value) => value === undefined ? e.getAttribute(name) : value == null ? e.removeAttribute(name) : e.setAttribute(name, value)),
+	data: value((e, name, value) => value === undefined ? e.dataset[name] : e.dataset[name] = value),
 	css: self((e, style) => isString(style) ? e.style.cssText = style : Object.keys(style).forEach(name => e.style[name] = style[name])),
 	model: value((e, value) => value !== undefined ? e.model = value : e.model),
 	value: value((e, value) => value !== undefined ? e.value = value : e.value),
+	size: function() {return this.nodes.length},
 	toString: value(e => e.outerHTML),
 
 	add: value((e, name) => e.classList.add(name)),
@@ -211,7 +213,7 @@ function activatable(element, type) {
 	if (element.closest) {
 		let component = element.closest(".mimic")
 		if (component) {
-			let info = component.mimic || (component.mimic = {})
+			let info = component.mimic ??= {}
 			let count = ++info[type] || (info[type] = 1)
 			if (count === 1) component.addEventListener(type, e => {
 				console.log("need redraw ", component, e, info)
@@ -220,4 +222,3 @@ function activatable(element, type) {
 		}
 	}
 }
-

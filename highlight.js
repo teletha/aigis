@@ -1,298 +1,310 @@
-/*!
-  Highlight.js v11.2.0 (git: 2a5c592e5e)
-  (c) 2006-2021 Ivan Sagalaev and other contributors
-  License: BSD-3-Clause
+/*
+ * Copyright (C) 2025 The EVERGARDEN Development Team
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *          https://opensource.org/licenses/MIT
  */
-var hljs=function(){"use strict";var e={exports:{}};function n(e){
+var e={exports:{}};function t(e){
 return e instanceof Map?e.clear=e.delete=e.set=()=>{
 throw Error("map is read-only")}:e instanceof Set&&(e.add=e.clear=e.delete=()=>{
 throw Error("set is read-only")
-}),Object.freeze(e),Object.getOwnPropertyNames(e).forEach((t=>{var a=e[t]
-;"object"!=typeof a||Object.isFrozen(a)||n(a)})),e}
-e.exports=n,e.exports.default=n;var t=e.exports;class a{constructor(e){
+}),Object.freeze(e),Object.getOwnPropertyNames(e).forEach((n=>{var i=e[n]
+;"object"!=typeof i||Object.isFrozen(i)||t(i)})),e}
+e.exports=t,e.exports.default=t;class n{constructor(e){
 void 0===e.data&&(e.data={}),this.data=e.data,this.isMatchIgnored=!1}
 ignoreMatch(){this.isMatchIgnored=!0}}function i(e){
 return e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#x27;")
-}function s(e,...n){const t=Object.create(null);for(const n in e)t[n]=e[n]
-;return n.forEach((e=>{for(const n in e)t[n]=e[n]})),t}const r=e=>!!e.kind
-;class o{constructor(e,n){
-this.buffer="",this.classPrefix=n.classPrefix,e.walk(this)}addText(e){
-this.buffer+=i(e)}openNode(e){if(!r(e))return;let n=e.kind
-;n=e.sublanguage?"language-"+n:((e,{prefix:n})=>{if(e.includes(".")){
-const t=e.split(".")
-;return[`${n}${t.shift()}`,...t.map(((e,n)=>`${e}${"_".repeat(n+1)}`))].join(" ")
-}return`${n}${e}`})(n,{prefix:this.classPrefix}),this.span(n)}closeNode(e){
-r(e)&&(this.buffer+="</span>")}value(){return this.buffer}span(e){
-this.buffer+=`<span class="${e}">`}}class l{constructor(){this.rootNode={
-children:[]},this.stack=[this.rootNode]}get top(){
+}function r(e,...t){const n=Object.create(null);for(const t in e)n[t]=e[t]
+;return t.forEach((e=>{for(const t in e)n[t]=e[t]})),n}
+const s=e=>!!e.scope||e.sublanguage&&e.language;class o{constructor(e,t){
+this.buffer="",this.classPrefix=t.classPrefix,e.walk(this)}addText(e){
+this.buffer+=i(e)}openNode(e){if(!s(e))return;let t=""
+;t=e.sublanguage?"language-"+e.language:((e,{prefix:t})=>{if(e.includes(".")){
+const n=e.split(".")
+;return[`${t}${n.shift()}`,...n.map(((e,t)=>`${e}${"_".repeat(t+1)}`))].join(" ")
+}return`${t}${e}`})(e.scope,{prefix:this.classPrefix}),this.span(t)}
+closeNode(e){s(e)&&(this.buffer+="</span>")}value(){return this.buffer}span(e){
+this.buffer+=`<span class="${e}">`}}const a=(e={})=>{const t={children:[]}
+;return Object.assign(t,e),t};class c{constructor(){
+this.rootNode=a(),this.stack=[this.rootNode]}get top(){
 return this.stack[this.stack.length-1]}get root(){return this.rootNode}add(e){
-this.top.children.push(e)}openNode(e){const n={kind:e,children:[]}
-;this.add(n),this.stack.push(n)}closeNode(){
+this.top.children.push(e)}openNode(e){const t=a({scope:e})
+;this.add(t),this.stack.push(t)}closeNode(){
 if(this.stack.length>1)return this.stack.pop()}closeAllNodes(){
 for(;this.closeNode(););}toJSON(){return JSON.stringify(this.rootNode,null,4)}
-walk(e){return this.constructor._walk(e,this.rootNode)}static _walk(e,n){
-return"string"==typeof n?e.addText(n):n.children&&(e.openNode(n),
-n.children.forEach((n=>this._walk(e,n))),e.closeNode(n)),e}static _collapse(e){
+walk(e){return this.constructor._walk(e,this.rootNode)}static _walk(e,t){
+return"string"==typeof t?e.addText(t):t.children&&(e.openNode(t),
+t.children.forEach((t=>this._walk(e,t))),e.closeNode(t)),e}static _collapse(e){
 "string"!=typeof e&&e.children&&(e.children.every((e=>"string"==typeof e))?e.children=[e.children.join("")]:e.children.forEach((e=>{
-l._collapse(e)})))}}class c extends l{constructor(e){super(),this.options=e}
-addKeyword(e,n){""!==e&&(this.openNode(n),this.addText(e),this.closeNode())}
-addText(e){""!==e&&this.add(e)}addSublanguage(e,n){const t=e.root
-;t.kind=n,t.sublanguage=!0,this.add(t)}toHTML(){
-return new o(this,this.options).value()}finalize(){return!0}}function d(e){
-return e?"string"==typeof e?e:e.source:null}function g(e){return b("(?=",e,")")}
-function u(e){return b("(?:",e,")?")}function b(...e){
-return e.map((e=>d(e))).join("")}function m(...e){return"("+((e=>{
-const n=e[e.length-1]
-;return"object"==typeof n&&n.constructor===Object?(e.splice(e.length-1,1),n):{}
-})(e).capture?"":"?:")+e.map((e=>d(e))).join("|")+")"}function p(e){
-return RegExp(e.toString()+"|").exec("").length-1}
-const _=/\[(?:[^\\\]]|\\.)*\]|\(\??|\\([1-9][0-9]*)|\\./
-;function h(e,{joinWith:n}){let t=0;return e.map((e=>{t+=1;const n=t
-;let a=d(e),i="";for(;a.length>0;){const e=_.exec(a);if(!e){i+=a;break}
-i+=a.substring(0,e.index),
-a=a.substring(e.index+e[0].length),"\\"===e[0][0]&&e[1]?i+="\\"+(Number(e[1])+n):(i+=e[0],
-"("===e[0]&&t++)}return i})).map((e=>`(${e})`)).join(n)}
-const f="[a-zA-Z]\\w*",E="[a-zA-Z_]\\w*",y="\\b\\d+(\\.\\d+)?",N="(-?)(\\b0[xX][a-fA-F0-9]+|(\\b\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)",w="\\b(0b[01]+)",v={
-begin:"\\\\[\\s\\S]",relevance:0},O={scope:"string",begin:"'",end:"'",
-illegal:"\\n",contains:[v]},M={scope:"string",begin:'"',end:'"',illegal:"\\n",
-contains:[v]},x=(e,n,t={})=>{const a=s({scope:"comment",begin:e,end:n,
-contains:[]},t);a.contains.push({scope:"doctag",
+c._collapse(e)})))}}class l extends c{constructor(e){super(),this.options=e}
+addKeyword(e,t){""!==e&&(this.openNode(t),this.addText(e),this.closeNode())}
+addText(e){""!==e&&this.add(e)}addSublanguage(e,t){const n=e.root
+;n.sublanguage=!0,n.language=t,this.add(n)}toHTML(){
+return new o(this,this.options).value()}finalize(){return!0}}function g(e){
+return e?"string"==typeof e?e:e.source:null}function d(e){return p("(?=",e,")")}
+function u(e){return p("(?:",e,")*")}function h(e){return p("(?:",e,")?")}
+function p(...e){return e.map((e=>g(e))).join("")}function f(...e){const t=(e=>{
+const t=e[e.length-1]
+;return"object"==typeof t&&t.constructor===Object?(e.splice(e.length-1,1),t):{}
+})(e);return"("+(t.capture?"":"?:")+e.map((e=>g(e))).join("|")+")"}
+function b(e){return RegExp(e.toString()+"|").exec("").length-1}
+const m=/\[(?:[^\\\]]|\\.)*\]|\(\??|\\([1-9][0-9]*)|\\./
+;function E(e,{joinWith:t}){let n=0;return e.map((e=>{n+=1;const t=n
+;let i=g(e),r="";for(;i.length>0;){const e=m.exec(i);if(!e){r+=i;break}
+r+=i.substring(0,e.index),
+i=i.substring(e.index+e[0].length),"\\"===e[0][0]&&e[1]?r+="\\"+(Number(e[1])+t):(r+=e[0],
+"("===e[0]&&n++)}return r})).map((e=>`(${e})`)).join(t)}
+const x="(-?)(\\b0[xX][a-fA-F0-9]+|(\\b\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)",w={
+begin:"\\\\[\\s\\S]",relevance:0},y={scope:"string",begin:"'",end:"'",
+illegal:"\\n",contains:[w]},_={scope:"string",begin:'"',end:'"',illegal:"\\n",
+contains:[w]},O=(e,t,n={})=>{const i=r({scope:"comment",begin:e,end:t,
+contains:[]},n);i.contains.push({scope:"doctag",
 begin:"[ ]*(?=(TODO|FIXME|NOTE|BUG|OPTIMIZE|HACK|XXX):)",
 end:/(TODO|FIXME|NOTE|BUG|OPTIMIZE|HACK|XXX):/,excludeBegin:!0,relevance:0})
-;const i=m("I","a","is","so","us","to","at","if","in","it","on",/[A-Za-z]+['](d|ve|re|ll|t|s|n)/,/[A-Za-z]+[-][a-z]+/,/[A-Za-z][a-z]{2,}/)
-;return a.contains.push({begin:b(/[ ]+/,"(",i,/[.]?[:]?([.][ ]|[ ])/,"){3}")}),a
-},S=x("//","$"),k=x("/\\*","\\*/"),A=x("#","$");var C=Object.freeze({
-__proto__:null,MATCH_NOTHING_RE:/\b\B/,IDENT_RE:f,UNDERSCORE_IDENT_RE:E,
-NUMBER_RE:y,C_NUMBER_RE:N,BINARY_NUMBER_RE:w,
+;const s=f("I","a","is","so","us","to","at","if","in","it","on",/[A-Za-z]+['](d|ve|re|ll|t|s|n)/,/[A-Za-z]+[-][a-z]+/,/[A-Za-z][a-z]{2,}/)
+;return i.contains.push({begin:p(/[ ]+/,"(",s,/[.]?[:]?([.][ ]|[ ])/,"){3}")}),i
+},v=O("//","$"),N=O("/\\*","\\*/"),k=O("#","$");var M=Object.freeze({
+__proto__:null,MATCH_NOTHING_RE:/\b\B/,IDENT_RE:"[a-zA-Z]\\w*",
+UNDERSCORE_IDENT_RE:"[a-zA-Z_]\\w*",NUMBER_RE:"\\b\\d+(\\.\\d+)?",C_NUMBER_RE:x,
+BINARY_NUMBER_RE:"\\b(0b[01]+)",
 RE_STARTERS_RE:"!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|-|-=|/=|/|:|;|<<|<<=|<=|<|===|==|=|>>>=|>>=|>=|>>>|>>|>|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~",
-SHEBANG:(e={})=>{const n=/^#![ ]*\//
-;return e.binary&&(e.begin=b(n,/.*\b/,e.binary,/\b.*/)),s({scope:"meta",begin:n,
-end:/$/,relevance:0,"on:begin":(e,n)=>{0!==e.index&&n.ignoreMatch()}},e)},
-BACKSLASH_ESCAPE:v,APOS_STRING_MODE:O,QUOTE_STRING_MODE:M,PHRASAL_WORDS_MODE:{
+SHEBANG:(e={})=>{const t=/^#![ ]*\//
+;return e.binary&&(e.begin=p(t,/.*\b/,e.binary,/\b.*/)),r({scope:"meta",begin:t,
+end:/$/,relevance:0,"on:begin":(e,t)=>{0!==e.index&&t.ignoreMatch()}},e)},
+BACKSLASH_ESCAPE:w,APOS_STRING_MODE:y,QUOTE_STRING_MODE:_,PHRASAL_WORDS_MODE:{
 begin:/\b(a|an|the|are|I'm|isn't|don't|doesn't|won't|but|just|should|pretty|simply|enough|gonna|going|wtf|so|such|will|you|your|they|like|more)\b/
-},COMMENT:x,C_LINE_COMMENT_MODE:S,C_BLOCK_COMMENT_MODE:k,HASH_COMMENT_MODE:A,
-NUMBER_MODE:{scope:"number",begin:y,relevance:0},C_NUMBER_MODE:{scope:"number",
-begin:N,relevance:0},BINARY_NUMBER_MODE:{scope:"number",begin:w,relevance:0},
-REGEXP_MODE:{begin:/(?=\/[^/\n]*\/)/,contains:[{scope:"regexp",begin:/\//,
-end:/\/[gimuy]*/,illegal:/\n/,contains:[v,{begin:/\[/,end:/\]/,relevance:0,
-contains:[v]}]}]},TITLE_MODE:{scope:"title",begin:f,relevance:0},
-UNDERSCORE_TITLE_MODE:{scope:"title",begin:E,relevance:0},METHOD_GUARD:{
-begin:"\\.\\s*[a-zA-Z_]\\w*",relevance:0},END_SAME_AS_BEGIN:e=>Object.assign(e,{
-"on:begin":(e,n)=>{n.data._beginMatch=e[1]},"on:end":(e,n)=>{
-n.data._beginMatch!==e[1]&&n.ignoreMatch()}})});function T(e,n){
-"."===e.input[e.index-1]&&n.ignoreMatch()}function R(e,n){
-void 0!==e.className&&(e.scope=e.className,delete e.className)}function D(e,n){
-n&&e.beginKeywords&&(e.begin="\\b("+e.beginKeywords.split(" ").join("|")+")(?!\\.)(?=\\b|\\s)",
-e.__beforeBegin=T,e.keywords=e.keywords||e.beginKeywords,delete e.beginKeywords,
-void 0===e.relevance&&(e.relevance=0))}function I(e,n){
-Array.isArray(e.illegal)&&(e.illegal=m(...e.illegal))}function L(e,n){
+},COMMENT:O,C_LINE_COMMENT_MODE:v,C_BLOCK_COMMENT_MODE:N,HASH_COMMENT_MODE:k,
+NUMBER_MODE:{scope:"number",begin:"\\b\\d+(\\.\\d+)?",relevance:0},
+C_NUMBER_MODE:{scope:"number",begin:x,relevance:0},BINARY_NUMBER_MODE:{
+scope:"number",begin:"\\b(0b[01]+)",relevance:0},REGEXP_MODE:{
+begin:/(?=\/[^/\n]*\/)/,contains:[{scope:"regexp",begin:/\//,end:/\/[gimuy]*/,
+illegal:/\n/,contains:[w,{begin:/\[/,end:/\]/,relevance:0,contains:[w]}]}]},
+TITLE_MODE:{scope:"title",begin:"[a-zA-Z]\\w*",relevance:0},
+UNDERSCORE_TITLE_MODE:{scope:"title",begin:"[a-zA-Z_]\\w*",relevance:0},
+METHOD_GUARD:{begin:"\\.\\s*[a-zA-Z_]\\w*",relevance:0},
+END_SAME_AS_BEGIN:e=>Object.assign(e,{"on:begin":(e,t)=>{t.data._beginMatch=e[1]
+},"on:end":(e,t)=>{t.data._beginMatch!==e[1]&&t.ignoreMatch()}})})
+;function S(e,t){"."===e.input[e.index-1]&&t.ignoreMatch()}function R(e,t){
+void 0!==e.className&&(e.scope=e.className,delete e.className)}function A(e,t){
+t&&e.beginKeywords&&(e.begin="\\b("+e.beginKeywords.split(" ").join("|")+")(?!\\.)(?=\\b|\\s)",
+e.__beforeBegin=S,e.keywords=e.keywords||e.beginKeywords,delete e.beginKeywords,
+void 0===e.relevance&&(e.relevance=0))}function j(e,t){
+Array.isArray(e.illegal)&&(e.illegal=f(...e.illegal))}function I(e,t){
 if(e.match){
 if(e.begin||e.end)throw Error("begin & end are not supported with match")
-;e.begin=e.match,delete e.match}}function B(e,n){
-void 0===e.relevance&&(e.relevance=1)}const $=(e,n)=>{if(!e.beforeMatch)return
+;e.begin=e.match,delete e.match}}function T(e,t){
+void 0===e.relevance&&(e.relevance=1)}const L=(e,t)=>{if(!e.beforeMatch)return
 ;if(e.starts)throw Error("beforeMatch cannot be used with starts")
-;const t=Object.assign({},e);Object.keys(e).forEach((n=>{delete e[n]
-})),e.keywords=t.keywords,e.begin=b(t.beforeMatch,g(t.begin)),e.starts={
-relevance:0,contains:[Object.assign(t,{endsParent:!0})]
-},e.relevance=0,delete t.beforeMatch
-},z=["of","and","for","in","not","or","if","then","parent","list","value"]
-;function F(e,n,t="keyword"){const a=Object.create(null)
-;return"string"==typeof e?i(t,e.split(" ")):Array.isArray(e)?i(t,e):Object.keys(e).forEach((t=>{
-Object.assign(a,F(e[t],n,t))})),a;function i(e,t){
-n&&(t=t.map((e=>e.toLowerCase()))),t.forEach((n=>{const t=n.split("|")
-;a[t[0]]=[e,j(t[0],t[1])]}))}}function j(e,n){
-return n?Number(n):(e=>z.includes(e.toLowerCase()))(e)?0:1}const U={},P=e=>{
-console.error(e)},K=(e,...n)=>{console.log("WARN: "+e,...n)},q=(e,n)=>{
-U[`${e}/${n}`]||(console.log(`Deprecated as of ${e}. ${n}`),U[`${e}/${n}`]=!0)
-},H=Error();function G(e,n,{key:t}){let a=0;const i=e[t],s={},r={}
-;for(let e=1;e<=n.length;e++)r[e+a]=i[e],s[e+a]=!0,a+=p(n[e-1])
-;e[t]=r,e[t]._emit=s,e[t]._multi=!0}function Z(e){(e=>{
+;const n=Object.assign({},e);Object.keys(e).forEach((t=>{delete e[t]
+})),e.keywords=n.keywords,e.begin=p(n.beforeMatch,d(n.begin)),e.starts={
+relevance:0,contains:[Object.assign(n,{endsParent:!0})]
+},e.relevance=0,delete n.beforeMatch
+},B=["of","and","for","in","not","or","if","then","parent","list","value"]
+;function D(e,t,n="keyword"){const i=Object.create(null)
+;return"string"==typeof e?r(n,e.split(" ")):Array.isArray(e)?r(n,e):Object.keys(e).forEach((n=>{
+Object.assign(i,D(e[n],t,n))})),i;function r(e,n){
+t&&(n=n.map((e=>e.toLowerCase()))),n.forEach((t=>{const n=t.split("|")
+;i[n[0]]=[e,H(n[0],n[1])]}))}}function H(e,t){
+return t?Number(t):(e=>B.includes(e.toLowerCase()))(e)?0:1}const P={},C=e=>{
+console.error(e)},$=(e,...t)=>{console.log("WARN: "+e,...t)},U=(e,t)=>{
+P[`${e}/${t}`]||(console.log(`Deprecated as of ${e}. ${t}`),P[`${e}/${t}`]=!0)
+},z=Error();function K(e,t,{key:n}){let i=0;const r=e[n],s={},o={}
+;for(let e=1;e<=t.length;e++)o[e+i]=r[e],s[e+i]=!0,i+=b(t[e-1])
+;e[n]=o,e[n]._emit=s,e[n]._multi=!0}function W(e){(e=>{
 e.scope&&"object"==typeof e.scope&&null!==e.scope&&(e.beginScope=e.scope,
 delete e.scope)})(e),"string"==typeof e.beginScope&&(e.beginScope={
 _wrap:e.beginScope}),"string"==typeof e.endScope&&(e.endScope={_wrap:e.endScope
 }),(e=>{if(Array.isArray(e.begin)){
-if(e.skip||e.excludeBegin||e.returnBegin)throw P("skip, excludeBegin, returnBegin not compatible with beginScope: {}"),
-H
-;if("object"!=typeof e.beginScope||null===e.beginScope)throw P("beginScope must be object"),
-H;G(e,e.begin,{key:"beginScope"}),e.begin=h(e.begin,{joinWith:""})}})(e),(e=>{
+if(e.skip||e.excludeBegin||e.returnBegin)throw C("skip, excludeBegin, returnBegin not compatible with beginScope: {}"),
+z
+;if("object"!=typeof e.beginScope||null===e.beginScope)throw C("beginScope must be object"),
+z;K(e,e.begin,{key:"beginScope"}),e.begin=E(e.begin,{joinWith:""})}})(e),(e=>{
 if(Array.isArray(e.end)){
-if(e.skip||e.excludeEnd||e.returnEnd)throw P("skip, excludeEnd, returnEnd not compatible with endScope: {}"),
-H
-;if("object"!=typeof e.endScope||null===e.endScope)throw P("endScope must be object"),
-H;G(e,e.end,{key:"endScope"}),e.end=h(e.end,{joinWith:""})}})(e)}function W(e){
-function n(n,t){return RegExp(d(n),"m"+(e.case_insensitive?"i":"")+(t?"g":""))}
-class t{constructor(){
+if(e.skip||e.excludeEnd||e.returnEnd)throw C("skip, excludeEnd, returnEnd not compatible with endScope: {}"),
+z
+;if("object"!=typeof e.endScope||null===e.endScope)throw C("endScope must be object"),
+z;K(e,e.end,{key:"endScope"}),e.end=E(e.end,{joinWith:""})}})(e)}function X(e){
+function t(t,n){
+return RegExp(g(t),"m"+(e.case_insensitive?"i":"")+(e.unicodeRegex?"u":"")+(n?"g":""))
+}class n{constructor(){
 this.matchIndexes={},this.regexes=[],this.matchAt=1,this.position=0}
-addRule(e,n){
-n.position=this.position++,this.matchIndexes[this.matchAt]=n,this.regexes.push([n,e]),
-this.matchAt+=p(e)+1}compile(){0===this.regexes.length&&(this.exec=()=>null)
-;const e=this.regexes.map((e=>e[1]));this.matcherRe=n(h(e,{joinWith:"|"
+addRule(e,t){
+t.position=this.position++,this.matchIndexes[this.matchAt]=t,this.regexes.push([t,e]),
+this.matchAt+=b(e)+1}compile(){0===this.regexes.length&&(this.exec=()=>null)
+;const e=this.regexes.map((e=>e[1]));this.matcherRe=t(E(e,{joinWith:"|"
 }),!0),this.lastIndex=0}exec(e){this.matcherRe.lastIndex=this.lastIndex
-;const n=this.matcherRe.exec(e);if(!n)return null
-;const t=n.findIndex(((e,n)=>n>0&&void 0!==e)),a=this.matchIndexes[t]
-;return n.splice(0,t),Object.assign(n,a)}}class a{constructor(){
+;const t=this.matcherRe.exec(e);if(!t)return null
+;const n=t.findIndex(((e,t)=>t>0&&void 0!==e)),i=this.matchIndexes[n]
+;return t.splice(0,n),Object.assign(t,i)}}class i{constructor(){
 this.rules=[],this.multiRegexes=[],
 this.count=0,this.lastIndex=0,this.regexIndex=0}getMatcher(e){
-if(this.multiRegexes[e])return this.multiRegexes[e];const n=new t
-;return this.rules.slice(e).forEach((([e,t])=>n.addRule(e,t))),
-n.compile(),this.multiRegexes[e]=n,n}resumingScanAtSamePosition(){
-return 0!==this.regexIndex}considerAll(){this.regexIndex=0}addRule(e,n){
-this.rules.push([e,n]),"begin"===n.type&&this.count++}exec(e){
-const n=this.getMatcher(this.regexIndex);n.lastIndex=this.lastIndex
-;let t=n.exec(e)
-;if(this.resumingScanAtSamePosition())if(t&&t.index===this.lastIndex);else{
-const n=this.getMatcher(0);n.lastIndex=this.lastIndex+1,t=n.exec(e)}
-return t&&(this.regexIndex+=t.position+1,
-this.regexIndex===this.count&&this.considerAll()),t}}
+if(this.multiRegexes[e])return this.multiRegexes[e];const t=new n
+;return this.rules.slice(e).forEach((([e,n])=>t.addRule(e,n))),
+t.compile(),this.multiRegexes[e]=t,t}resumingScanAtSamePosition(){
+return 0!==this.regexIndex}considerAll(){this.regexIndex=0}addRule(e,t){
+this.rules.push([e,t]),"begin"===t.type&&this.count++}exec(e){
+const t=this.getMatcher(this.regexIndex);t.lastIndex=this.lastIndex
+;let n=t.exec(e)
+;if(this.resumingScanAtSamePosition())if(n&&n.index===this.lastIndex);else{
+const t=this.getMatcher(0);t.lastIndex=this.lastIndex+1,n=t.exec(e)}
+return n&&(this.regexIndex+=n.position+1,
+this.regexIndex===this.count&&this.considerAll()),n}}
 if(e.compilerExtensions||(e.compilerExtensions=[]),
 e.contains&&e.contains.includes("self"))throw Error("ERR: contains `self` is not supported at the top-level of a language.  See documentation.")
-;return e.classNameAliases=s(e.classNameAliases||{}),function t(i,r){const o=i
-;if(i.isCompiled)return o
-;[R,L,Z,$].forEach((e=>e(i,r))),e.compilerExtensions.forEach((e=>e(i,r))),
-i.__beforeBegin=null,[D,I,B].forEach((e=>e(i,r))),i.isCompiled=!0;let l=null
-;return"object"==typeof i.keywords&&i.keywords.$pattern&&(i.keywords=Object.assign({},i.keywords),
-l=i.keywords.$pattern,
-delete i.keywords.$pattern),l=l||/\w+/,i.keywords&&(i.keywords=F(i.keywords,e.case_insensitive)),
-o.keywordPatternRe=n(l,!0),
-r&&(i.begin||(i.begin=/\B|\b/),o.beginRe=n(i.begin),i.end||i.endsWithParent||(i.end=/\B|\b/),
-i.end&&(o.endRe=n(i.end)),
-o.terminatorEnd=d(i.end)||"",i.endsWithParent&&r.terminatorEnd&&(o.terminatorEnd+=(i.end?"|":"")+r.terminatorEnd)),
-i.illegal&&(o.illegalRe=n(i.illegal)),
-i.contains||(i.contains=[]),i.contains=[].concat(...i.contains.map((e=>(e=>(e.variants&&!e.cachedVariants&&(e.cachedVariants=e.variants.map((n=>s(e,{
-variants:null},n)))),e.cachedVariants?e.cachedVariants:Q(e)?s(e,{
-starts:e.starts?s(e.starts):null
-}):Object.isFrozen(e)?s(e):e))("self"===e?i:e)))),i.contains.forEach((e=>{t(e,o)
-})),i.starts&&t(i.starts,r),o.matcher=(e=>{const n=new a
-;return e.contains.forEach((e=>n.addRule(e.begin,{rule:e,type:"begin"
-}))),e.terminatorEnd&&n.addRule(e.terminatorEnd,{type:"end"
-}),e.illegal&&n.addRule(e.illegal,{type:"illegal"}),n})(o),o}(e)}function Q(e){
-return!!e&&(e.endsWithParent||Q(e.starts))}const X=i,V=s,J=Symbol("nomatch")
-;var Y=(e=>{const n=Object.create(null),i=Object.create(null),s=[];let r=!0
-;const o="Could not find the language '{}', did you forget to load/include a language module?",l={
-disableAutodetect:!0,name:"Plain text",contains:[]};let d={
-ignoreUnescapedHTML:!1,noHighlightRe:/^(no-?highlight)$/i,
+;return e.classNameAliases=r(e.classNameAliases||{}),function n(s,o){const a=s
+;if(s.isCompiled)return a
+;[R,I,W,L].forEach((e=>e(s,o))),e.compilerExtensions.forEach((e=>e(s,o))),
+s.__beforeBegin=null,[A,j,T].forEach((e=>e(s,o))),s.isCompiled=!0;let c=null
+;return"object"==typeof s.keywords&&s.keywords.$pattern&&(s.keywords=Object.assign({},s.keywords),
+c=s.keywords.$pattern,
+delete s.keywords.$pattern),c=c||/\w+/,s.keywords&&(s.keywords=D(s.keywords,e.case_insensitive)),
+a.keywordPatternRe=t(c,!0),
+o&&(s.begin||(s.begin=/\B|\b/),a.beginRe=t(a.begin),s.end||s.endsWithParent||(s.end=/\B|\b/),
+s.end&&(a.endRe=t(a.end)),
+a.terminatorEnd=g(a.end)||"",s.endsWithParent&&o.terminatorEnd&&(a.terminatorEnd+=(s.end?"|":"")+o.terminatorEnd)),
+s.illegal&&(a.illegalRe=t(s.illegal)),
+s.contains||(s.contains=[]),s.contains=[].concat(...s.contains.map((e=>(e=>(e.variants&&!e.cachedVariants&&(e.cachedVariants=e.variants.map((t=>r(e,{
+variants:null},t)))),e.cachedVariants?e.cachedVariants:Z(e)?r(e,{
+starts:e.starts?r(e.starts):null
+}):Object.isFrozen(e)?r(e):e))("self"===e?s:e)))),s.contains.forEach((e=>{n(e,a)
+})),s.starts&&n(s.starts,o),a.matcher=(e=>{const t=new i
+;return e.contains.forEach((e=>t.addRule(e.begin,{rule:e,type:"begin"
+}))),e.terminatorEnd&&t.addRule(e.terminatorEnd,{type:"end"
+}),e.illegal&&t.addRule(e.illegal,{type:"illegal"}),t})(a),a}(e)}function Z(e){
+return!!e&&(e.endsWithParent||Z(e.starts))}class G extends Error{
+constructor(e,t){super(e),this.name="HTMLInjectionError",this.html=t}}
+const F=i,V=r,q=Symbol("nomatch");var J=(t=>{
+const i=Object.create(null),r=Object.create(null),s=[];let o=!0
+;const a="Could not find the language '{}', did you forget to load/include a language module?",c={
+disableAutodetect:!0,name:"Plain text",contains:[]};let g={
+ignoreUnescapedHTML:!1,throwUnescapedHTML:!1,noHighlightRe:/^(no-?highlight)$/i,
 languageDetectRe:/\blang(?:uage)?-([\w-]+)\b/i,classPrefix:"hljs-",
-cssSelector:"pre code",languages:null,__emitter:c};function g(e){
-return d.noHighlightRe.test(e)}function u(e,n,t){let a="",i=""
-;"object"==typeof n?(a=e,
-t=n.ignoreIllegals,i=n.language):(q("10.7.0","highlight(lang, code, ...args) has been deprecated."),
-q("10.7.0","Please use highlight(code, options) instead.\nhttps://github.com/highlightjs/highlight.js/issues/2277"),
-i=e,a=n),void 0===t&&(t=!0);const s={code:a,language:i};N("before:highlight",s)
-;const r=s.result?s.result:b(s.language,s.code,t)
-;return r.code=s.code,N("after:highlight",r),r}function b(e,t,i,s){
-const l=Object.create(null);function c(){if(!M.keywords)return void S.addText(k)
-;let e=0;M.keywordPatternRe.lastIndex=0;let n=M.keywordPatternRe.exec(k),t=""
-;for(;n;){t+=k.substring(e,n.index)
-;const i=w.case_insensitive?n[0].toLowerCase():n[0],s=(a=i,M.keywords[a]);if(s){
-const[e,a]=s
-;if(S.addText(t),t="",l[i]=(l[i]||0)+1,l[i]<=7&&(A+=a),e.startsWith("_"))t+=n[0];else{
-const t=w.classNameAliases[e]||e;S.addKeyword(n[0],t)}}else t+=n[0]
-;e=M.keywordPatternRe.lastIndex,n=M.keywordPatternRe.exec(k)}var a
-;t+=k.substr(e),S.addText(t)}function g(){null!=M.subLanguage?(()=>{
-if(""===k)return;let e=null;if("string"==typeof M.subLanguage){
-if(!n[M.subLanguage])return void S.addText(k)
-;e=b(M.subLanguage,k,!0,x[M.subLanguage]),x[M.subLanguage]=e._top
-}else e=m(k,M.subLanguage.length?M.subLanguage:null)
-;M.relevance>0&&(A+=e.relevance),S.addSublanguage(e._emitter,e.language)
-})():c(),k=""}function u(e,n){let t=1;for(;void 0!==n[t];){if(!e._emit[t]){t++
-;continue}const a=w.classNameAliases[e[t]]||e[t],i=n[t]
-;a?S.addKeyword(i,a):(k=i,c(),k=""),t++}}function p(e,n){
-return e.scope&&"string"==typeof e.scope&&S.openNode(w.classNameAliases[e.scope]||e.scope),
-e.beginScope&&(e.beginScope._wrap?(S.addKeyword(k,w.classNameAliases[e.beginScope._wrap]||e.beginScope._wrap),
-k=""):e.beginScope._multi&&(u(e.beginScope,n),k="")),M=Object.create(e,{parent:{
-value:M}}),M}function _(e,n,t){let i=((e,n)=>{const t=e&&e.exec(n)
-;return t&&0===t.index})(e.endRe,t);if(i){if(e["on:end"]){const t=new a(e)
-;e["on:end"](n,t),t.isMatchIgnored&&(i=!1)}if(i){
+cssSelector:"pre code",languages:null,__emitter:l};function b(e){
+return g.noHighlightRe.test(e)}function m(e,t,n){let i="",r=""
+;"object"==typeof t?(i=e,
+n=t.ignoreIllegals,r=t.language):(U("10.7.0","highlight(lang, code, ...args) has been deprecated."),
+U("10.7.0","Please use highlight(code, options) instead.\nhttps://github.com/highlightjs/highlight.js/issues/2277"),
+r=e,i=t),void 0===n&&(n=!0);const s={code:i,language:r};k("before:highlight",s)
+;const o=s.result?s.result:E(s.language,s.code,n)
+;return o.code=s.code,k("after:highlight",o),o}function E(e,t,r,s){
+const c=Object.create(null);function l(){if(!N.keywords)return void M.addText(S)
+;let e=0;N.keywordPatternRe.lastIndex=0;let t=N.keywordPatternRe.exec(S),n=""
+;for(;t;){n+=S.substring(e,t.index)
+;const r=y.case_insensitive?t[0].toLowerCase():t[0],s=(i=r,N.keywords[i]);if(s){
+const[e,i]=s
+;if(M.addText(n),n="",c[r]=(c[r]||0)+1,c[r]<=7&&(R+=i),e.startsWith("_"))n+=t[0];else{
+const n=y.classNameAliases[e]||e;M.addKeyword(t[0],n)}}else n+=t[0]
+;e=N.keywordPatternRe.lastIndex,t=N.keywordPatternRe.exec(S)}var i
+;n+=S.substring(e),M.addText(n)}function d(){null!=N.subLanguage?(()=>{
+if(""===S)return;let e=null;if("string"==typeof N.subLanguage){
+if(!i[N.subLanguage])return void M.addText(S)
+;e=E(N.subLanguage,S,!0,k[N.subLanguage]),k[N.subLanguage]=e._top
+}else e=x(S,N.subLanguage.length?N.subLanguage:null)
+;N.relevance>0&&(R+=e.relevance),M.addSublanguage(e._emitter,e.language)
+})():l(),S=""}function u(e,t){let n=1;const i=t.length-1;for(;n<=i;){
+if(!e._emit[n]){n++;continue}const i=y.classNameAliases[e[n]]||e[n],r=t[n]
+;i?M.addKeyword(r,i):(S=r,l(),S=""),n++}}function h(e,t){
+return e.scope&&"string"==typeof e.scope&&M.openNode(y.classNameAliases[e.scope]||e.scope),
+e.beginScope&&(e.beginScope._wrap?(M.addKeyword(S,y.classNameAliases[e.beginScope._wrap]||e.beginScope._wrap),
+S=""):e.beginScope._multi&&(u(e.beginScope,t),S="")),N=Object.create(e,{parent:{
+value:N}}),N}function p(e,t,i){let r=((e,t)=>{const n=e&&e.exec(t)
+;return n&&0===n.index})(e.endRe,i);if(r){if(e["on:end"]){const i=new n(e)
+;e["on:end"](t,i),i.isMatchIgnored&&(r=!1)}if(r){
 for(;e.endsParent&&e.parent;)e=e.parent;return e}}
-if(e.endsWithParent)return _(e.parent,n,t)}function h(e){
-return 0===M.matcher.regexIndex?(k+=e[0],1):(R=!0,0)}function E(e){
-const n=e[0],a=t.substr(e.index),i=_(M,e,a);if(!i)return J;const s=M
-;M.endScope&&M.endScope._wrap?(g(),
-S.addKeyword(n,M.endScope._wrap)):M.endScope&&M.endScope._multi?(g(),
-u(M.endScope,e)):s.skip?k+=n:(s.returnEnd||s.excludeEnd||(k+=n),
-g(),s.excludeEnd&&(k=n));do{
-M.scope&&S.closeNode(),M.skip||M.subLanguage||(A+=M.relevance),M=M.parent
-}while(M!==i.parent);return i.starts&&p(i.starts,e),s.returnEnd?0:n.length}
-let y={};function N(n,s){const o=s&&s[0];if(k+=n,null==o)return g(),0
-;if("begin"===y.type&&"end"===s.type&&y.index===s.index&&""===o){
-if(k+=t.slice(s.index,s.index+1),!r){const n=Error(`0 width match regex (${e})`)
-;throw n.languageName=e,n.badRule=y.rule,n}return 1}
-if(y=s,"begin"===s.type)return(e=>{
-const n=e[0],t=e.rule,i=new a(t),s=[t.__beforeBegin,t["on:begin"]]
-;for(const t of s)if(t&&(t(e,i),i.isMatchIgnored))return h(n)
-;return t.skip?k+=n:(t.excludeBegin&&(k+=n),
-g(),t.returnBegin||t.excludeBegin||(k=n)),p(t,e),t.returnBegin?0:n.length})(s)
-;if("illegal"===s.type&&!i){
-const e=Error('Illegal lexeme "'+o+'" for mode "'+(M.scope||"<unnamed>")+'"')
-;throw e.mode=M,e}if("end"===s.type){const e=E(s);if(e!==J)return e}
-if("illegal"===s.type&&""===o)return 1
-;if(T>1e5&&T>3*s.index)throw Error("potential infinite loop, way more iterations than matches")
-;return k+=o,o.length}const w=f(e)
-;if(!w)throw P(o.replace("{}",e)),Error('Unknown language: "'+e+'"')
-;const v=W(w);let O="",M=s||v;const x={},S=new d.__emitter(d);(()=>{const e=[]
-;for(let n=M;n!==w;n=n.parent)n.scope&&e.unshift(n.scope)
-;e.forEach((e=>S.openNode(e)))})();let k="",A=0,C=0,T=0,R=!1;try{
-for(M.matcher.considerAll();;){
-T++,R?R=!1:M.matcher.considerAll(),M.matcher.lastIndex=C
-;const e=M.matcher.exec(t);if(!e)break;const n=N(t.substring(C,e.index),e)
-;C=e.index+n}return N(t.substr(C)),S.closeAllNodes(),S.finalize(),O=S.toHTML(),{
-language:e,value:O,relevance:A,illegal:!1,_emitter:S,_top:M}}catch(n){
-if(n.message&&n.message.includes("Illegal"))return{language:e,value:X(t),
-illegal:!0,relevance:0,_illegalBy:{message:n.message,index:C,
-context:t.slice(C-100,C+100),mode:n.mode,resultSoFar:O},_emitter:S};if(r)return{
-language:e,value:X(t),illegal:!1,relevance:0,errorRaised:n,_emitter:S,_top:M}
-;throw n}}function m(e,t){t=t||d.languages||Object.keys(n);const a=(e=>{
-const n={value:X(e),illegal:!1,relevance:0,_top:l,_emitter:new d.__emitter(d)}
-;return n._emitter.addText(e),n})(e),i=t.filter(f).filter(y).map((n=>b(n,e,!1)))
-;i.unshift(a);const s=i.sort(((e,n)=>{
-if(e.relevance!==n.relevance)return n.relevance-e.relevance
-;if(e.language&&n.language){if(f(e.language).supersetOf===n.language)return 1
-;if(f(n.language).supersetOf===e.language)return-1}return 0})),[r,o]=s,c=r
-;return c.secondBest=o,c}function p(e){let n=null;const t=(e=>{
-let n=e.className+" ";n+=e.parentNode?e.parentNode.className:""
-;const t=d.languageDetectRe.exec(n);if(t){const n=f(t[1])
-;return n||(K(o.replace("{}",t[1])),
-K("Falling back to no-highlight mode for this block.",e)),n?t[1]:"no-highlight"}
-return n.split(/\s+/).find((e=>g(e)||f(e)))})(e);if(g(t))return
-;N("before:highlightElement",{el:e,language:t
-}),!d.ignoreUnescapedHTML&&e.children.length>0&&(console.warn("One of your code blocks includes unescaped HTML. This is a potentially serious security risk."),
-console.warn("https://github.com/highlightjs/highlight.js/issues/2886"),
-console.warn(e)),n=e;const a=n.textContent,s=t?u(a,{language:t,ignoreIllegals:!0
-}):m(a);e.innerHTML=s.value,((e,n,t)=>{const a=n&&i[n]||t
-;e.classList.add("hljs"),e.classList.add("language-"+a)
-})(e,t,s.language),e.result={language:s.language,re:s.relevance,
+if(e.endsWithParent)return p(e.parent,t,i)}function f(e){
+return 0===N.matcher.regexIndex?(S+=e[0],1):(I=!0,0)}function b(e){
+const n=e[0],i=t.substring(e.index),r=p(N,e,i);if(!r)return q;const s=N
+;N.endScope&&N.endScope._wrap?(d(),
+M.addKeyword(n,N.endScope._wrap)):N.endScope&&N.endScope._multi?(d(),
+u(N.endScope,e)):s.skip?S+=n:(s.returnEnd||s.excludeEnd||(S+=n),
+d(),s.excludeEnd&&(S=n));do{
+N.scope&&M.closeNode(),N.skip||N.subLanguage||(R+=N.relevance),N=N.parent
+}while(N!==r.parent);return r.starts&&h(r.starts,e),s.returnEnd?0:n.length}
+let m={};function w(i,s){const a=s&&s[0];if(S+=i,null==a)return d(),0
+;if("begin"===m.type&&"end"===s.type&&m.index===s.index&&""===a){
+if(S+=t.slice(s.index,s.index+1),!o){const t=Error(`0 width match regex (${e})`)
+;throw t.languageName=e,t.badRule=m.rule,t}return 1}
+if(m=s,"begin"===s.type)return(e=>{
+const t=e[0],i=e.rule,r=new n(i),s=[i.__beforeBegin,i["on:begin"]]
+;for(const n of s)if(n&&(n(e,r),r.isMatchIgnored))return f(t)
+;return i.skip?S+=t:(i.excludeBegin&&(S+=t),
+d(),i.returnBegin||i.excludeBegin||(S=t)),h(i,e),i.returnBegin?0:t.length})(s)
+;if("illegal"===s.type&&!r){
+const e=Error('Illegal lexeme "'+a+'" for mode "'+(N.scope||"<unnamed>")+'"')
+;throw e.mode=N,e}if("end"===s.type){const e=b(s);if(e!==q)return e}
+if("illegal"===s.type&&""===a)return 1
+;if(j>1e5&&j>3*s.index)throw Error("potential infinite loop, way more iterations than matches")
+;return S+=a,a.length}const y=O(e)
+;if(!y)throw C(a.replace("{}",e)),Error('Unknown language: "'+e+'"')
+;const _=X(y);let v="",N=s||_;const k={},M=new g.__emitter(g);(()=>{const e=[]
+;for(let t=N;t!==y;t=t.parent)t.scope&&e.unshift(t.scope)
+;e.forEach((e=>M.openNode(e)))})();let S="",R=0,A=0,j=0,I=!1;try{
+for(N.matcher.considerAll();;){
+j++,I?I=!1:N.matcher.considerAll(),N.matcher.lastIndex=A
+;const e=N.matcher.exec(t);if(!e)break;const n=w(t.substring(A,e.index),e)
+;A=e.index+n}
+return w(t.substring(A)),M.closeAllNodes(),M.finalize(),v=M.toHTML(),{
+language:e,value:v,relevance:R,illegal:!1,_emitter:M,_top:N}}catch(n){
+if(n.message&&n.message.includes("Illegal"))return{language:e,value:F(t),
+illegal:!0,relevance:0,_illegalBy:{message:n.message,index:A,
+context:t.slice(A-100,A+100),mode:n.mode,resultSoFar:v},_emitter:M};if(o)return{
+language:e,value:F(t),illegal:!1,relevance:0,errorRaised:n,_emitter:M,_top:N}
+;throw n}}function x(e,t){t=t||g.languages||Object.keys(i);const n=(e=>{
+const t={value:F(e),illegal:!1,relevance:0,_top:c,_emitter:new g.__emitter(g)}
+;return t._emitter.addText(e),t})(e),r=t.filter(O).filter(N).map((t=>E(t,e,!1)))
+;r.unshift(n);const s=r.sort(((e,t)=>{
+if(e.relevance!==t.relevance)return t.relevance-e.relevance
+;if(e.language&&t.language){if(O(e.language).supersetOf===t.language)return 1
+;if(O(t.language).supersetOf===e.language)return-1}return 0})),[o,a]=s,l=o
+;return l.secondBest=a,l}function w(e){let t=null;const n=(e=>{
+let t=e.className+" ";t+=e.parentNode?e.parentNode.className:""
+;const n=g.languageDetectRe.exec(t);if(n){const t=O(n[1])
+;return t||($(a.replace("{}",n[1])),
+$("Falling back to no-highlight mode for this block.",e)),t?n[1]:"no-highlight"}
+return t.split(/\s+/).find((e=>b(e)||O(e)))})(e);if(b(n))return
+;if(k("before:highlightElement",{el:e,language:n
+}),e.children.length>0&&(g.ignoreUnescapedHTML||(console.warn("One of your code blocks includes unescaped HTML. This is a potentially serious security risk."),
+console.warn("https://github.com/highlightjs/highlight.js/wiki/security"),
+console.warn("The element with unescaped HTML:"),
+console.warn(e)),g.throwUnescapedHTML))throw new G("One of your code blocks includes unescaped HTML.",e.innerHTML)
+;t=e;const i=t.textContent,s=n?m(i,{language:n,ignoreIllegals:!0}):x(i)
+;e.innerHTML=s.value,((e,t,n)=>{const i=t&&r[t]||n
+;e.classList.add("hljs"),e.classList.add("language-"+i)
+})(e,n,s.language),e.result={language:s.language,re:s.relevance,
 relevance:s.relevance},s.secondBest&&(e.secondBest={
 language:s.secondBest.language,relevance:s.secondBest.relevance
-}),N("after:highlightElement",{el:e,result:s,text:a})}let _=!1;function h(){
-"loading"!==document.readyState?document.querySelectorAll(d.cssSelector).forEach(p):_=!0
-}function f(e){return e=(e||"").toLowerCase(),n[e]||n[i[e]]}
-function E(e,{languageName:n}){"string"==typeof e&&(e=[e]),e.forEach((e=>{
-i[e.toLowerCase()]=n}))}function y(e){const n=f(e)
-;return n&&!n.disableAutodetect}function N(e,n){const t=e;s.forEach((e=>{
-e[t]&&e[t](n)}))}
+}),k("after:highlightElement",{el:e,result:s,text:i})}let y=!1;function _(){
+"loading"!==document.readyState?document.querySelectorAll(g.cssSelector).forEach(w):y=!0
+}function O(e){return e=(e||"").toLowerCase(),i[e]||i[r[e]]}
+function v(e,{languageName:t}){"string"==typeof e&&(e=[e]),e.forEach((e=>{
+r[e.toLowerCase()]=t}))}function N(e){const t=O(e)
+;return t&&!t.disableAutodetect}function k(e,t){const n=e;s.forEach((e=>{
+e[n]&&e[n](t)}))}
 "undefined"!=typeof window&&window.addEventListener&&window.addEventListener("DOMContentLoaded",(()=>{
-_&&h()}),!1),Object.assign(e,{highlight:u,highlightAuto:m,highlightAll:h,
-highlightElement:p,
-highlightBlock:e=>(q("10.7.0","highlightBlock will be removed entirely in v12.0"),
-q("10.7.0","Please use highlightElement now."),p(e)),configure:e=>{d=V(d,e)},
+y&&_()}),!1),Object.assign(t,{highlight:m,highlightAuto:x,highlightAll:_,
+highlightElement:w,
+highlightBlock:e=>(U("10.7.0","highlightBlock will be removed entirely in v12.0"),
+U("10.7.0","Please use highlightElement now."),w(e)),configure:e=>{g=V(g,e)},
 initHighlighting:()=>{
-h(),q("10.6.0","initHighlighting() deprecated.  Use highlightAll() now.")},
+_(),U("10.6.0","initHighlighting() deprecated.  Use highlightAll() now.")},
 initHighlightingOnLoad:()=>{
-h(),q("10.6.0","initHighlightingOnLoad() deprecated.  Use highlightAll() now.")
-},registerLanguage:(t,a)=>{let i=null;try{i=a(e)}catch(e){
-if(P("Language definition for '{}' could not be registered.".replace("{}",t)),
-!r)throw e;P(e),i=l}
-i.name||(i.name=t),n[t]=i,i.rawDefinition=a.bind(null,e),i.aliases&&E(i.aliases,{
-languageName:t})},unregisterLanguage:e=>{delete n[e]
-;for(const n of Object.keys(i))i[n]===e&&delete i[n]},
-listLanguages:()=>Object.keys(n),getLanguage:f,registerAliases:E,
-autoDetection:y,inherit:V,addPlugin:e=>{(e=>{
-e["before:highlightBlock"]&&!e["before:highlightElement"]&&(e["before:highlightElement"]=n=>{
-e["before:highlightBlock"](Object.assign({block:n.el},n))
-}),e["after:highlightBlock"]&&!e["after:highlightElement"]&&(e["after:highlightElement"]=n=>{
-e["after:highlightBlock"](Object.assign({block:n.el},n))})})(e),s.push(e)}
-}),e.debugMode=()=>{r=!1},e.safeMode=()=>{r=!0},e.versionString="11.2.0"
-;for(const e in C)"object"==typeof C[e]&&t(C[e]);return Object.assign(e,C),e
-})({});const Fe=Y;
-return Fe}()
-;"object"==typeof exports&&"undefined"!=typeof module&&(module.exports=hljs);
+_(),U("10.6.0","initHighlightingOnLoad() deprecated.  Use highlightAll() now.")
+},registerLanguage:(e,n)=>{let r=null;try{r=n(t)}catch(t){
+if(C("Language definition for '{}' could not be registered.".replace("{}",e)),
+!o)throw t;C(t),r=c}
+r.name||(r.name=e),i[e]=r,r.rawDefinition=n.bind(null,t),r.aliases&&v(r.aliases,{
+languageName:e})},unregisterLanguage:e=>{delete i[e]
+;for(const t of Object.keys(r))r[t]===e&&delete r[t]},
+listLanguages:()=>Object.keys(i),getLanguage:O,registerAliases:v,
+autoDetection:N,inherit:V,addPlugin:e=>{(e=>{
+e["before:highlightBlock"]&&!e["before:highlightElement"]&&(e["before:highlightElement"]=t=>{
+e["before:highlightBlock"](Object.assign({block:t.el},t))
+}),e["after:highlightBlock"]&&!e["after:highlightElement"]&&(e["after:highlightElement"]=t=>{
+e["after:highlightBlock"](Object.assign({block:t.el},t))})})(e),s.push(e)}
+}),t.debugMode=()=>{o=!1},t.safeMode=()=>{o=!0
+},t.versionString="11.7.0",t.regex={concat:p,lookahead:d,either:f,optional:h,
+anyNumberOfTimes:u};for(const t in M)"object"==typeof M[t]&&e.exports(M[t])
+;return Object.assign(t,M),t})({});export{J as default};

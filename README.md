@@ -97,10 +97,19 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Dependency
 Aigis depends on the following products on runtime.
+* [jackson-annotations-2.19.0](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations/2.19.0)
+* [jackson-core-2.19.0](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core/2.19.0)
+* [jackson-databind-2.19.0](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind/2.19.0)
+* [jspecify-1.0.0](https://mvnrepository.com/artifact/org.jspecify/jspecify/1.0.0)
 * [kuromoji-core-0.9.0](https://mvnrepository.com/artifact/com.atilika.kuromoji/kuromoji-core/0.9.0)
 * [kuromoji-ipadic-0.9.0](https://mvnrepository.com/artifact/com.atilika.kuromoji/kuromoji-ipadic/0.9.0)
+* [langchain4j-1.0.1](https://mvnrepository.com/artifact/dev.langchain4j/langchain4j/1.0.1)
+* [langchain4j-core-1.0.1](https://mvnrepository.com/artifact/dev.langchain4j/langchain4j-core/1.0.1)
+* [langchain4j-google-ai-gemini-1.0.1-beta6](https://mvnrepository.com/artifact/dev.langchain4j/langchain4j-google-ai-gemini/1.0.1-beta6)
+* [opennlp-tools-2.5.4](https://mvnrepository.com/artifact/org.apache.opennlp/opennlp-tools/2.5.4)
 * [psychopath-2.2.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/2.2.1)
 * [sinobu-4.12.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/4.12.0)
+* [slf4j-api-2.0.17](https://mvnrepository.com/artifact/org.slf4j/slf4j-api/2.0.17)
 <p align="right"><a href="#top">back to top</a></p>
 
 

@@ -9,7 +9,7 @@ package aigis;
  *
  *          https://opensource.org/licenses/MIT
  */
-import static bee.api.License.MIT;
+import static bee.api.License.*;
 
 public class Project extends bee.api.Project {
     {
@@ -19,6 +19,8 @@ public class Project extends bee.api.Project {
         require("com.github.teletha", "sinobu");
         require("com.github.teletha", "psychopath");
         require("com.atilika.kuromoji", "kuromoji-ipadic");
+        require("dev.langchain4j", "langchain4j");
+        require("dev.langchain4j", "langchain4j-google-ai-gemini");
 
         versionControlSystem("https://github.com/teletha/aigis");
     }

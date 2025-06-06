@@ -10,9 +10,7 @@
 package aigis.open2ch;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Topics {
-
-    public List<Topic> articles = new ArrayList();
+@SuppressWarnings("serial")
+public class Topics extends ArrayList<Topic> {
 }

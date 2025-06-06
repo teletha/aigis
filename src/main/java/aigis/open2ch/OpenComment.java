@@ -11,5 +11,14 @@ package aigis.open2ch;
 
 import java.time.LocalDateTime;
 
-public record OpenComment(int num, String name, LocalDateTime date, String id, String body) {
+public class OpenComment {
+    public int num;
+
+    public String name;
+
+    public LocalDateTime date;
+
+    public String id;
+
+    public String body;
 }

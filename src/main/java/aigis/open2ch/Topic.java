@@ -11,5 +11,5 @@ package aigis.open2ch;
 
 import java.util.List;
 
-public record Topic(String title, List<Integer> commnets, List<Integer> pickups) {
+public record Topic(String title, List<Integer> comments) {
 }

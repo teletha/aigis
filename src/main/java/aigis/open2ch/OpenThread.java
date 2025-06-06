@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Locale;
 
 import kiss.I;
-import kiss.Managed;
 import kiss.Storable;
 import kiss.XML;
 import psychopath.Directory;
@@ -34,8 +33,7 @@ public class OpenThread implements Storable<OpenThread> {
 
     public List<OpenComment> comments = new ArrayList();
 
-    @Managed
-    private Topics topics;
+    public Topics topics;
 
     /**
      * @param file
@@ -63,7 +61,14 @@ public class OpenThread implements Storable<OpenThread> {
             List<File> images = new ArrayList();
             dd.find("img").forEach(img -> images.add(log.file(img.attr("src"))));
 
-            this.comments.add(new OpenComment(num, name.text().replace("↓", ""), date, id, body));
+            OpenComment comment = new OpenComment();
+            comment.num = num;
+            comment.id = id;
+            comment.date = date;
+            comment.name = name.text().replace("↓", "");
+            comment.body = body;
+
+            this.comments.add(comment);
         });
     }
 

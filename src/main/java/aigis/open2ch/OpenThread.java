@@ -55,8 +55,8 @@ public class OpenThread implements Storable<OpenThread> {
             String id = name.next().attr("val");
 
             XML dd = dt.next();
-            dd.element("br").text("\r\n");
-            String body = dd.text().trim().replaceAll("&gt;", ">");
+            dd.element("br").text("  \r\n");
+            String body = dd.text().trim();
 
             List<File> images = new ArrayList();
             dd.find("img").forEach(img -> images.add(log.file(img.attr("src"))));
@@ -67,6 +67,7 @@ public class OpenThread implements Storable<OpenThread> {
             comment.date = date;
             comment.name = name.text().replace("↓", "");
             comment.body = body;
+            comment.images = images;
 
             this.comments.add(comment);
         });
@@ -127,6 +128,10 @@ public class OpenThread implements Storable<OpenThread> {
 
             I.info("Analyze topics. [" + thread.title + "]");
         }
-        return null;
+
+        for (Topic topic : thread.topics) {
+            topic.thread = thread;
+        }
+        return thread;
     }
 }

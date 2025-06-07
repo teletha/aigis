@@ -10,6 +10,9 @@
 package aigis.open2ch;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import psychopath.File;
 
 public class OpenComment {
     public int num;
@@ -21,4 +24,6 @@ public class OpenComment {
     public String id;
 
     public String body;
+
+    public List<File> images;
 }

@@ -10,6 +10,7 @@
 package aigis;
 
 import aigis.open2ch.OpenThread;
+import aigis.open2ch.Topic;
 import kiss.I;
 import psychopath.Directory;
 import psychopath.File;
@@ -19,6 +20,7 @@ public class Open2ch {
 
     public static void main(String[] args) {
         Directory log = I.env("log", Locator.directory(""));
+        Directory output = I.env("output", Locator.directory(""));
         log.walkDirectory("*_files").to(dir -> {
             String title = dir.name();
             title = title.substring(0, title.length() - 6);
@@ -26,20 +28,9 @@ public class Open2ch {
             if (file.isPresent()) {
                 OpenThread thread = OpenThread.of(file);
 
-                // for (Topic topic : thread.getTopics().articles) {
-                // System.out.println("######################################");
-                // System.out.println(topic.title() + " " + topic.commnets().size());
-                // System.out.println("######################################");
-                // for (Integer id : topic.commnets()) {
-                // if (topic.pickups().contains(id)) {
-                // System.out.println("@ " + id + "\r\n" + thread.getCommentBy(id).body());
-                // } else {
-                // System.out.println(id + "\r\n" + thread.getCommentBy(id).body());
-                // }
-                // }
-                //
-                // System.out.println("");
-                // }
+                for (Topic topic : thread.topics) {
+                    topic.writeTo(output.file(topic.title + ".md"));
+                }
             }
         });
     }
